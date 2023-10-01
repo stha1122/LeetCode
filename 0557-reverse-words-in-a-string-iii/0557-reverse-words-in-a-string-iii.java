@@ -29,23 +29,3 @@ class Solution {
 
 
 
-// class Solution {
-//     public String reverseWords(String s) {
-//         String[] words = s.split(" ");
-//         StringBuilder sb = new StringBuilder();
-//         for(String word : words){
-//              word = reverse(word);
-//             sb.append(word);
-//             sb.append(" ");
-//         }
-//        return sb.toString().trim();
-//     }
-
-//     public String reverse(String word){
-//         String revword="";
-//         for(int i=word.length()-1;i>=0;i--){
-//             revword+=word.charAt(i);
-//         }
-//         return revword;
-//     }
-// }
