@@ -1,18 +1,27 @@
-public class Solution {
+class Solution {
     public boolean winnerOfGame(String colors) {
-        int countA = 0; // Count of valid moves for Alice
-        int countB = 0; // Count of valid moves for Bob
-        
-        // Iterate through the string and count valid moves
-        for (int i = 1; i < colors.length() - 1; i++) {
-            if (colors.charAt(i - 1) == 'A' && colors.charAt(i) == 'A' && colors.charAt(i + 1) == 'A') {
-                countA++;
-            } else if (colors.charAt(i - 1) == 'B' && colors.charAt(i) == 'B' && colors.charAt(i + 1) == 'B') {
-                countB++;
+        int aCnt=0,bCnt=0;
+        int aTemp=0,bTemp=0;
+        for(char c : colors.toCharArray()){
+            if(c=='A'){
+                bTemp=0;
+                aTemp++;
+                if(aTemp>=3){
+                    aCnt++;
+                }
+            }
+            else{
+                aTemp=0;
+                bTemp++;
+                if(bTemp>=3){
+                    bCnt++;
+                }
             }
         }
+        if(aCnt>bCnt)
+            return true;
+        else
+        return false;
         
-        // Alice wins if she has more valid moves
-        return countA > countB;
     }
 }
