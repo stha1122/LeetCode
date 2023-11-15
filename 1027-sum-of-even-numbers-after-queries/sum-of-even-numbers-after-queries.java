@@ -1,27 +1,29 @@
 class Solution {
-     public static int[] sumEvenAfterQueries(int[] nums, int[][] queries) {
-		 int total_sum=0;
-		 int ans[] = new int[queries.length];
-		 for(int i=0;i<nums.length;i++) {
-			 if(nums[i]%2==0) {
-				 total_sum+=nums[i];
-			 }
-		 }
-		 
-		 for(int i=0;i<queries.length;i++) {
-			 if(nums[queries[i][1]]%2==0) {
-				total_sum-= nums[queries[i][1]];
-			 }
-			
-			 nums[queries[i][1]]+=queries[i][0];
-				
-			 if(nums[queries[i][1]]%2==0) {
-					total_sum+= nums[queries[i][1]];
-				 }
-			 ans[i] =total_sum;
-			 
-		 }
-		return ans;
-	        
-	    }
+    public int[] sumEvenAfterQueries(int[] nums, int[][] queries) {
+        int[] ans = new int[queries.length];
+        // get even sum
+        int sum = 0;
+        for(int n : nums) {
+            if(n % 2 == 0) {
+                sum += n; 
+            }
+        }
+        
+        for(int i = 0; i < queries.length; i++) {
+            int[] q = queries[i];
+            // remove the old number from the query.
+            if(nums[q[1]] % 2 == 0) {
+                sum -= nums[q[1]];
+            }
+            // perform the addition
+            nums[q[1]] += q[0];
+            // add the new value if it's even. 
+            if(nums[q[1]] % 2 == 0) {
+                sum += nums[q[1]];
+            }
+            ans[i] = sum; 
+        }
+        
+        return ans; 
+    }
 }
