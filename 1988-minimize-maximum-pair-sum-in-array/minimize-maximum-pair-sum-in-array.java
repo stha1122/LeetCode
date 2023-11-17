@@ -1,19 +1,43 @@
 class Solution {
     public int minPairSum(int[] nums) {
-        PriorityQueue<Integer> min = new PriorityQueue<>();
-        PriorityQueue<Integer> max = new PriorityQueue<>(Comparator.reverseOrder());
         
-        for(int i = 0; i< nums.length;i++){
-            min.offer(nums[i]);
+        int max=Integer.MIN_VALUE;
+        int sum=0;
+        for(int i:nums)
+        {
+            max=Math.max(max,i);
         }
-        for(int i = 0; i< nums.length ;i++){
-            max.offer(nums[i]);
+        int l=1;
+        int r=max;
+        int buc[]=new int[max+1];
+        for(int i:nums)
+        {
+            buc[i]++;
         }
-        int maxSum = 0;
-        for(int i = 0; i< nums.length/2;i++){
-          int currSum = min.poll() + max.poll();
-          maxSum = Math.max(currSum,maxSum);
+        while(l<=r)
+        {
+            while(buc[l]==0)
+            {l++;}
+            while(buc[r]==0)
+            {r--;}
+            sum=Math.max(sum,l+r);
+            
+            if(buc[l]>buc[r])
+            {
+                buc[l]=buc[l]-buc[r];
+                r--;
+            }
+            else if(buc[l]<buc[r])
+            {
+                buc[r]=buc[r]-buc[l];
+                l++;
+            }
+            else
+            {
+                l++;
+                r--;
+            }
         }
-        return maxSum;
+        return sum;
     }
 }
