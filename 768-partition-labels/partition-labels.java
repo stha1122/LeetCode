@@ -9,19 +9,19 @@ class Solution {
         }
 
         int start = 0;
-        int end = 0;
-        for (int i = 0; i < str.length; i++) {
-             int currentEnd = last[str[i] - 'a'];
-                end = Math.max(end, currentEnd);
-            if (i == end) {
+        int end = last[str[start] - 'a'];
+        for (int i = 1; i < str.length; i++) {
+            final int currentEnd = last[str[i] - 'a'];
+
+            if (i > end) {
                 result.add(end - start + 1);
-                start = i+1;
+                start = i;
             }
 
-            // end = Math.max(end, currentEnd);
+            end = Math.max(end, currentEnd);
         }
 
-        // result.add(end - start + 1);
+        result.add(end - start + 1);
 
         return result;
     }
