@@ -11,7 +11,7 @@ class Solution {
         int start = 0;
         int end = last[str[start] - 'a'];
         for (int i = 1; i < str.length; i++) {
-            final int currentEnd = last[str[i] - 'a'];
+             int currentEnd = last[str[i] - 'a'];
 
             if (i > end) {
                 result.add(end - start + 1);
