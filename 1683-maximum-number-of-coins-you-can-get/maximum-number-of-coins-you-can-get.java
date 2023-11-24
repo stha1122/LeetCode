@@ -1,40 +1,42 @@
 class Solution {
     public int maxCoins(int[] piles) {
-        int max = 0;
-        int n = piles.length;
+        int maxPileSize = 0;
+        int totalPiles = piles.length;
 
-        for(int i : piles)
-        {
-            if(max < i) max = i;
+        // Find the maximum pile size
+        for (int pileSize : piles) {
+            if (maxPileSize < pileSize) maxPileSize = pileSize;
         }
 
-        int[] coins = new int[max+1];
+        // Create a frequency array to count the number of occurrences of each pile size
+        int[] pileFrequency = new int[maxPileSize + 1];
 
-        for(int i : piles)
-        {
-            coins[i]++;
+        for (int pileSize : piles) {
+            pileFrequency[pileSize]++;
         }
-        
-        int sum = 0;
-        int chance = n / 3;
 
-        int turn = 1;
-        int i = max;
+        int totalCoins = 0;
+        int roundsLeft = totalPiles / 3;
 
-        while(chance != 0){
-            if(coins[i] > 0){
-                if(turn == 1) turn = 0;
+        int currentPlayer = 1;
+        int currentPile = maxPileSize;
+
+        // Simulate the process of picking piles
+        while (roundsLeft != 0) {
+            if (pileFrequency[currentPile] > 0) {
+                if (currentPlayer == 1) currentPlayer = 0;
                 else {
-                    chance--;
-                    turn = 1;
-                    sum += i;
+                    roundsLeft--;
+                    currentPlayer = 1;
+                    totalCoins += currentPile;
                 }
-                coins[i]--;
-            }else{
-                i--;
+                pileFrequency[currentPile]--;
+            } else {
+                currentPile--;
             }
         }
 
-        return sum;
+        // Return the maximum sum of coins
+        return totalCoins;
     }
 }
