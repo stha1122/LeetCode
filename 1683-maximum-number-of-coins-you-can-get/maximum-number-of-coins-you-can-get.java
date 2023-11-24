@@ -1,12 +1,40 @@
 class Solution {
     public int maxCoins(int[] piles) {
-        Arrays.sort(piles);
-        int sum=0,i=0,j=piles.length-2;
-        int total_piles = piles.length/3;
-        while(i++<total_piles){
-            sum+=piles[j];
-            j-=2;
+        int max = 0;
+        int n = piles.length;
+
+        for(int i : piles)
+        {
+            if(max < i) max = i;
         }
+
+        int[] coins = new int[max+1];
+
+        for(int i : piles)
+        {
+            coins[i]++;
+        }
+        
+        int sum = 0;
+        int chance = n / 3;
+
+        int turn = 1;
+        int i = max;
+
+        while(chance != 0){
+            if(coins[i] > 0){
+                if(turn == 1) turn = 0;
+                else {
+                    chance--;
+                    turn = 1;
+                    sum += i;
+                }
+                coins[i]--;
+            }else{
+                i--;
+            }
+        }
+
         return sum;
     }
 }
