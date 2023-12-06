@@ -1,25 +1,12 @@
 class Solution {
     public int totalMoney(int n) {
-        int count = 0;
-        int start = 1, dayM = start, weekM = 0, totalM = 0;
-
-        for (int i = 0; i < n; i++) {
-            if (count == 7) {
-                totalM += weekM;
-                count = 0;
-                start += 1;
-                weekM = 0;
-                dayM = start;
-            }
-
-            weekM += dayM;
-            dayM += 1;
-            count++;
-        }
-
-        // Add the remaining weekM if the loop finishes before reaching n days
-        totalM += weekM;
-
-        return totalM;
+        int week_count = n / 7;
+        int remaining_days = n % 7;
+        
+        int total = ((week_count * (week_count - 1)) / 2) * 7; // Contribution from complete weeks
+        total += week_count * 28; // Contribution from complete weeks (additional on Mondays)
+        total += ((remaining_days * (remaining_days + 1)) / 2) + (week_count * remaining_days); // Contribution from remaining days
+        
+        return total;
     }
 }
