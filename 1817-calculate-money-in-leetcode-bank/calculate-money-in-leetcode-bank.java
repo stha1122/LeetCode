@@ -1,17 +1,25 @@
 class Solution {
     public int totalMoney(int n) {
-        int ans = 0;
-        int monday = 1;
-        
-        while (n > 0) {
-            for (int day = 0; day < Math.min(n, 7); day++) {
-                ans += monday + day;
+        int count = 0;
+        int start = 1, dayM = start, weekM = 0, totalM = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (count == 7) {
+                totalM += weekM;
+                count = 0;
+                start += 1;
+                weekM = 0;
+                dayM = start;
             }
-            
-            n -= 7;
-            monday++;
+
+            weekM += dayM;
+            dayM += 1;
+            count++;
         }
-        
-        return ans;
+
+        // Add the remaining weekM if the loop finishes before reaching n days
+        totalM += weekM;
+
+        return totalM;
     }
 }
