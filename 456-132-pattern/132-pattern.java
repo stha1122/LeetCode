@@ -1,31 +1,19 @@
-public class Solution {
+class Solution {
     public boolean find132pattern(int[] nums) {
-        if (nums == null || nums.length < 3) {
-            return false;
-        }
-
-        int n = nums.length;
-        int[] minArray = new int[n];
-
-        minArray[0] = nums[0];
-        for (int i = 1; i < n; i++) {
-            minArray[i] = Math.min(minArray[i - 1], nums[i]);
-        }
-
-        Stack<Integer> stack = new Stack<>();
-
-        for (int j = n - 1; j >= 0; j--) {
-            while (!stack.isEmpty() && stack.peek() <= minArray[j]) {
-                stack.pop();
-            }
-
-            if (!stack.isEmpty() && stack.peek() < nums[j]) {
+        int min = Integer.MIN_VALUE;
+        int peak = nums.length;
+        for (int i = nums.length - 1; i >= 0; i--) {
+            // We find a "132" pattern if nums[i] < min, so return true...
+            if (nums[i] < min)
                 return true;
-            }
-
-            stack.push(nums[j]);
+            // If peak < nums.length & nums[i] is greater than the peak element...
+            while (peak < nums.length && nums[i] > nums[peak])
+                min = nums[peak++];
+            // Now we have nums[i] <= nums[peak]
+            // We push nums[i] to the "stack"            
+            peak--;
+            nums[peak] = nums[i];
         }
-
         return false;
     }
 }
