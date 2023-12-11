@@ -1,26 +1,21 @@
 class Solution {
     public int findSpecialInteger(int[] arr) {
-        int max = Integer. MIN_VALUE;
-        for(int i=0;i<arr.length;i++){
-            max = Math.max(arr[i],max);
-        }
-        int freArray[] = new int[max+1];
-        for(int i=0;i<arr.length;i++){
-            int temp = arr[i];
-            freArray[temp]++;
-        }
-        max=0;
-        int output=arr[0];
-         for(int i=0;i<arr.length;i++){
-             int temp = arr[i];
-             int count = freArray[temp];
-             if(count>max){
-                 max=count;
-                 output = temp;
-             }
+        
+        int size = arr.length;
+        int qtr = size / 4;
+        int cnt = 1;
+
+        int p = arr[0];
+        for (int i = 1 ; i < arr.length ; i++) {
+
+            if ( p == arr[i]) cnt++;
+            else cnt = 1;
             
+            if (cnt > qtr) return arr[i];
+            
+            p = arr[i];
         }
 
-        return output;
+        return p;
     }
 }
