@@ -8,13 +8,12 @@ class Solution {
                 break;
             }
         }
-            System.out.println(x);
-            // if target is greater than 
+           
 
             if(target>=nums[x] && target<=nums[n]){
                 int left = x;
                 int right = n;
-                System.out.println("this sec");
+        
                 while(right>=x && left<=n && left<=right  ){
                     int mid = (left+right)/2;
                       System.out.println(mid);
@@ -31,7 +30,7 @@ class Solution {
 
             }
                 else {
-                    System.out.println("that");
+                   
                      int left = 0;
                     int right = x-1;
                 while(right>=0 && left<=x-1 && left<=right  ){
