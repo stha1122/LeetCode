@@ -1,52 +1,36 @@
 class Solution {
     public int search(int[] nums, int target) {
-        int x=0,n=nums.length-1;
-    
-        for(int i=0;i<n;i++){
-            if(nums[i]>nums[i+1]){
-                x=i+1;
-                break;
-            }
-        }
-           
-
-            if(target>=nums[x] && target<=nums[n]){
-                int left = x;
-                int right = n;
-        
-                while(right>=x && left<=n && left<=right  ){
-                    int mid = (left+right)/2;
-                      System.out.println(mid);
-                    if(nums[mid]==target){
-                        return mid;
-                    }
-                    else if(target>nums[mid]){
-                        left = mid+1;
-                    }
-                    else{
-                        right = mid-1;
-                    }
-                }
-
-            }
-                else {
-                   
-                     int left = 0;
-                    int right = x-1;
-                while(right>=0 && left<=x-1 && left<=right  ){
-                    int mid = (left+right)/2;
-                    if(nums[mid]==target){
-                        return mid;
-                    }
-                    else if(target>nums[mid]){
-                        left = mid+1;
-                    }
-                    else{
-                        right = mid-1;
-                    }
-                }
-            }
-            return -1;
+         return modifiedBinarySearch(nums, target, 0, nums.length - 1);
             
     }
+     private int modifiedBinarySearch(int[] arr, int target, int left, int right) {
+
+    // Not found
+    if (left > right)
+      return -1;
+
+    // Avoid overflow, same as (left + right)/2
+    int mid = left + ((right - left) / 2);
+    if (arr[mid] == target)
+      return mid; // Found
+
+    // If left half is sorted
+    if (arr[mid] >= arr[left]) {
+
+      // If key is in left half
+      if (arr[left] <= target && target <= arr[mid])
+        return modifiedBinarySearch(arr, target, left, mid - 1);
+      else
+        return modifiedBinarySearch(arr, target, mid + 1, right);
+
+    } else {
+      // If right half is sorted
+
+      // If key is in right half
+      if (arr[mid] <= target && target <= arr[right])
+        return modifiedBinarySearch(arr, target, mid + 1, right);
+      else
+        return modifiedBinarySearch(arr, target, left, mid - 1);
+    }
+  }
 }
