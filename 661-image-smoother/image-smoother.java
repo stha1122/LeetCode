@@ -1,28 +1,82 @@
 class Solution {
-   public int[][] imageSmoother(int[][] image) {
-        int[][] smoother = new int[image.length][image[0].length];
+    public int[][] imageSmoother(int[][] img) {
+        // Save the dimensions of the image.
+        int m = img.length;
+        int n = img[0].length;
 
-        for (int row = 0; row < smoother.length; ++row)
-            for (int column = 0; column < smoother[0].length; ++column)
-                smoother[row][column] = surroundingFloor(image, row, column);
+        // Create temp array of size n.
+        int[] temp = new int[n];
+        int prevCorner = 0;
 
-        return smoother;
-    }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
 
-    private int surroundingFloor(int[][] image, int row, int column) {
-        int count = 0, sum = 0;
+                int sum = 0;
+                int count = 0;
 
-        for (int rowDifference = -1; rowDifference <= 1; ++rowDifference) {
-            for (int columnDifference = -1; columnDifference <= 1; ++columnDifference) {
-                int newRow = row + rowDifference, newColumn = column + columnDifference;
-
-                if (newRow >= 0 && newRow < image.length && newColumn >= 0 && newColumn < image[0].length) {
-                    sum += image[newRow][newColumn];
-                    count++;
+                // Bottom neighbors
+                if (i + 1 < m) {
+                    if (j - 1 >= 0) {
+                        sum += img[i + 1][j - 1];
+                        count += 1;
+                    }
+                    sum += img[i + 1][j];
+                    count += 1;
+                    if (j + 1 < n) {
+                        sum += img[i + 1][j + 1];
+                        count += 1;
+                    }
                 }
+
+                // Next neighbor
+                if (j + 1 < n) {
+                    sum += img[i][j + 1];
+                    count += 1;
+                }
+
+                // This cell
+                sum += img[i][j];
+                count += 1;
+
+                // Previous neighbor
+                if (j - 1 >= 0) {
+                    sum += temp[j - 1];
+                    count += 1;
+                }
+
+                // Top neighbors
+                if (i - 1 >= 0) {
+                    // Left-top corner-sharing neighbor.
+                    if (j - 1 >= 0) {
+                        sum += prevCorner;
+                        count += 1;
+                    }
+
+                    // Top edge-sharing neighbor.
+                    sum += temp[j];
+                    count += 1;
+
+                    // Right-top corner-sharing neighbor.
+                    if (j + 1 < n) {
+                        sum += temp[j + 1];
+                        count += 1;
+                    }
+                }
+
+                // store corner value
+                if (i - 1 >= 0) {
+                    prevCorner = temp[j];
+                }
+
+                // Store current value
+                temp[j] = img[i][j];
+
+                // Overwrite with smoothed value.
+                img[i][j] = sum / count;
             }
         }
 
-        return (int) Math.floor(sum * 1.00 / count);
+        // Return the smooth image.
+        return img;
     }
 }
