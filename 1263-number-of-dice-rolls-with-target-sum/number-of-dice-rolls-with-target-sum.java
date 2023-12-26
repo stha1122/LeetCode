@@ -1,24 +1,30 @@
 class Solution {
+    int[][] dp;
+    int MOD = 1000000007;
     public int numRollsToTarget(int n, int k, int target) {
-        long mod = (long) Math.pow(10, 9) + 7;
-
-        long[] prev = new long[target + 1];
-        long[] curr = new long[target + 1];
-
-        prev[0] = 1;
-
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= target; j++) {
-                long ans = 0;
-                for (int x = 1; x <= k; x++) {
-                    if (j - x >= 0) {
-                        ans += prev[j - x] % mod;
-                    }
-                }
-                curr[j] = ans;
-            }
-            prev = curr.clone();
+        if (n == 0 && target == 0) 
+            return 1;
+        if (target < n || n * k < target) 
+            return 0;
+        dp = new int[n + 1][target + 1];
+        return f(n, k, target);
+    }
+    public int f(int n, int k, int target) {
+        if (n == 0 && target == 0){
+            return 1;
         }
-        return (int) (prev[target] % mod);
+        if (target < n || n * k < target) {
+            return 0;
+        }
+        if (dp[n][target] != 0) {
+            return dp[n][target];
+        }
+        int res = 0;
+        for (int i = 1; i <= k; i++) {
+            if (target < i) break;
+                res = (res + f(n - 1, k, target - i) % MOD) % MOD;
+        }
+        dp[n][target] = res;
+        return res;
     }
 }
