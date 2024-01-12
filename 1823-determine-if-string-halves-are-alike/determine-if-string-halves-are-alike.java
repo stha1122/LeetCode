@@ -1,18 +1,23 @@
 class Solution {
     public boolean halvesAreAlike(String s) {
-        int n = s.length();
-        int a =0,b=0;
-        for(int i=0;i<n/2;i++){
-            if(s.charAt(i)=='a'||s.charAt(i)=='e'||s.charAt(i)=='i'||s.charAt(i)=='o'||s.charAt(i)=='u'||s.charAt(i)=='A'||s.charAt(i)=='E'||s.charAt(i)=='I'||s.charAt(i)=='O'||s.charAt(i)=='U'){
-                a++;
+        int mid = s.length() / 2;
+        String firstHalf = s.substring(0, mid);
+        String secondHalf = s.substring(mid);
+        
+        int countFirst = countVowels(firstHalf);
+        int countSecond = countVowels(secondHalf);
+        
+        return countFirst == countSecond;
+    }
+    
+    private int countVowels(String str) {
+        int count = 0;
+        for (char ch : str.toCharArray()) {
+            if ("AEIOUaeiou".indexOf(ch) != -1) {
+                System.out.println("AEIOUaeiou".indexOf(ch));
+                count++;
             }
         }
-          for(int i=n/2;i<n;i++){
-            if(s.charAt(i)=='a'||s.charAt(i)=='e'||s.charAt(i)=='i'||s.charAt(i)=='o'||s.charAt(i)=='u'||s.charAt(i)=='A'||s.charAt(i)=='E'||s.charAt(i)=='I'||s.charAt(i)=='O'||s.charAt(i)=='U'){
-                b++;
-            }
-        }
-
-        return (a==b);
+        return count;
     }
 }
