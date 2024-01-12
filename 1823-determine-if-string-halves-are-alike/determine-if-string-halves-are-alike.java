@@ -14,7 +14,7 @@ class Solution {
         int count = 0;
         for (char ch : str.toCharArray()) {
             if ("AEIOUaeiou".indexOf(ch) != -1) {
-                System.out.println("AEIOUaeiou".indexOf(ch));
+                
                 count++;
             }
         }
