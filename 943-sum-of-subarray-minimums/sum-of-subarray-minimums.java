@@ -1,28 +1,24 @@
 class Solution {
+    static int mod =(int) 1e9 +7;
     public int sumSubarrayMins(int[] arr) {
-        long res = 0;
-        Stack<Integer> stack = new Stack<Integer>();
-        long M = (long)1e9 + 7;
-        stack.push(-1);
-        
-        for (int i2 = 0; i2 < arr.length+1; i2++){
-            int currVal = (i2<arr.length)? arr[i2] : 0;
+        int n = arr.length + 1;
+        int[] left = new int[n];
+        int[] ext = new int[n];
+        int[] sums = new int[n];
+        for(int i = 0; i < n -1; ++i)
+           ext[i+1] = arr[i];
+           
+        int res = 0;
+        for (int i = 1; i < n; i++) {
+            int cur = ext[i];
+            int l = i - 1;
+            while (ext[l] >= cur) 
+                l = left[l];
             
-            while(stack.peek() !=-1 && currVal < arr[stack.peek()]){
-                int index = stack.pop();
-                int i1 = stack.peek();
-                int left = index - i1;
-                int right = i2 - index;
-                long add = (long)(left * right * (long)arr[index]) % M;
-                res += add ;
-                res %= M;
-            }
-            
-            stack.push(i2);
-            
+            left[i] = l;
+            sums[i] = sums[l] + cur * (i - l);
+            res = (res + sums[i]) % mod;
         }
-        
-        return (int)res;
-        
+        return res;        
     }
 }
