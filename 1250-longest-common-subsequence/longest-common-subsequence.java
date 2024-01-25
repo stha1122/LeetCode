@@ -1,84 +1,42 @@
 class Solution {
     public int longestCommonSubsequence(String text1, String text2) {
-        Integer dp[][] =  new Integer[text1.length()][text2.length()];
-        return solve3(text1,text2);
-    }
-    // public int solve (String s1,String s2,int idx1,int idx2,Integer dp[][]){
-    //    if(idx1==-1 || idx2==-1){
-    //        return 0;
-    //    }
-    //    if(dp[idx1][idx2]!=null){
-    //        return dp[idx1][idx2];
-    //    }
-    //     if(s1.charAt(idx1)==s2.charAt(idx2)){
-    //         return dp[idx1][idx2]= 1+solve(s1,s2,idx1-1,idx2-1,dp);
-    //     }
+        if(text1.equals(text2))
+           return text1.length();
+         char tb1[] = text1.toCharArray();
+        char tb2[] = text2.toCharArray();
 
-    //     else{
-    //         int sp1 = solve(s1,s2,idx1-1,idx2,dp); 
-    //         int sp2 = solve(s1,s2,idx1,idx2-1,dp);
-    //         return dp[idx1][idx2]=Math.max(sp1,sp2);
-    //     }
-    // }
-
-    // public int solve2(String s1,String s2){
-    //     Integer dp[][] =  new Integer[s1.length()][s2.length()];
-    //     for(int idx1=0;idx1<s1.length();idx1++){
-    //         for(int idx2=0;idx2<s2.length();idx2++){
-    //             if(s1.charAt(idx1)==s2.charAt(idx2)){
-    //                 if(idx1-1>=0 && idx2-1>=0){
-    //                     dp[idx1][idx2]= 1+dp[idx1-1][idx2-1];}
-    //                 else{
-    //                        dp[idx1][idx2]=1;  
-    //                     }
-    //     }
-
-    //              else{
-    //                     int sp1 = 0;
-                        
-    //                     if(idx1-1>=0){ sp1 = dp[idx1-1][idx2];}
-                        
-    //                     int sp2 = 0;
-                        
-    //                     if(idx2-1>=0){ sp2 =dp[idx1][idx2-1];}
-                        
-    //                     dp[idx1][idx2]=Math.max(sp1,sp2);
-    //     }
-    //         }
-    //     }
-
-    //     return dp[s1.length()-1][s2.length()-1];
-    // }
-
-     public int solve3(String s1,String s2){
-       int dp[][] =  new int[2][s2.length()];
-        for(int idx1=0;idx1<s1.length();idx1++){
-            for(int idx2=0;idx2<s2.length();idx2++){
-                if(s1.charAt(idx1)==s2.charAt(idx2)){
-                    if(idx1-1>=0 && idx2-1>=0){
-                        dp[1][idx2]= 1+dp[0][idx2-1];}
-                    else{
-                           dp[1][idx2]=1;  
-                        }
-        }
-
-                 else{
-                        int sp1 = 0;
-                        
-                        if(idx1-1>=0){ sp1 = dp[0][idx2];}
-                        
-                        int sp2 = 0;
-                        
-                        if(idx2-1>=0){ sp2 =dp[1][idx2-1];}
-                        
-                        dp[1][idx2]=Math.max(sp1,sp2);
-        }
+        if(tb1.length > tb2.length) {
+            int dp[] = new int[tb1.length + 1];
+            for(int i = 0; i < tb2.length; i++) {
+                int pc = 0, prc;
+                for(int j = 0; j < tb1.length; j++) {
+                    prc = pc;
+                    pc = dp[j + 1];
+                    if(tb2[i] == tb1[j]) {
+                        dp[j + 1] = prc + 1;
+                    } else {
+                        dp[j + 1] = Math.max(pc, dp[j]);
+                    }
+                }
             }
 
-            dp[0]=dp[1];
-            dp[1]=new int[s2.length()];
-        }
+            return dp[tb1.length];
+        } else {
+            int dp[] = new int[tb2.length + 1];
+            for(int i = 0; i < tb1.length; i++) {
+                int pc = 0, prc;
+                for(int j = 0; j < tb2.length; j++) {
+                    prc = pc;
+                    pc = dp[j + 1];
+                    if(tb1[i] == tb2[j]) {
+                        dp[j + 1] = prc + 1;
+                    } else {
+                        dp[j + 1] = Math.max(pc, dp[j]);
+                    }
+                }
+            }
 
-        return dp[0][s2.length()-1];
+            return dp[tb2.length];
+        }
     }
 }
