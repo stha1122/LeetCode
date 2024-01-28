@@ -1,34 +1,32 @@
 class Solution {
     public int numSubmatrixSumTarget(int[][] matrix, int target) {
+        if (matrix == null) return 0;
+        int m = matrix.length;
+        int n = m > 0 ? matrix[0].length : 0;
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 1; j < n; j++) 
+                matrix[i][j] += matrix[i][j - 1];
+                 }
         int count = 0;
-        int line = matrix.length;
-        int column = matrix[0].length + 1;
-        int[][] sum = new int[line][column];
+        HashMap<Integer, Integer> map = new HashMap();
         
-        for (int i = 0; i < sum.length; i++){
-            for (int j = 1; j < sum[0].length; j++){
-                sum[i][j] = sum[i][j - 1] + matrix[i][j - 1];
-            }
-        }
-        
-        
-        for (int start = 0; start < column; start++){
-            for (int end = start + 1; end < column; end++ ){
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                map.clear();
+                int sum = 0;
                 
-                int sumOfSubMatrix = 0;
-                Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-                map.put(0, 1);
-                for(int l = 0; l < line; l++){
-                    sumOfSubMatrix += sum[l][end] - sum[l][start];
-                    if (map.containsKey(sumOfSubMatrix - target))
-                        count += map.get(sumOfSubMatrix - target);
-                    map.put(sumOfSubMatrix, map.getOrDefault(sumOfSubMatrix, 0) + 1);
+                for (int k = 0; k < m; k++) {
+                    sum += matrix[k][j] - ((i != 0) ? matrix[k][i - 1] : 0);
+                    if (sum == target) 
+                        count++;
                     
+                    count += map.getOrDefault(sum - target, 0);
+                    
+                    map.merge(sum, 1, (a, b) -> a + b);
                 }
             }
         }
-        
         return count;
-        
     }
 }
