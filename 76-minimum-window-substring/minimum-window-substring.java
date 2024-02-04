@@ -1,5 +1,3 @@
-//2ms
-
 class Solution {
     public String minWindow(String s, String t) {
         int [] map = new int[128];
