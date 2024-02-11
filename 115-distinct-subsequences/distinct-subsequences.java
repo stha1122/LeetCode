@@ -1,25 +1,22 @@
 class Solution {
-    public int numDistinct(String S, String T) {
-    // array creation
-    int[][] mem = new int[T.length()+1][S.length()+1];
-
-    // filling the first row: with 1s
-    for(int j=0; j<=S.length(); j++) {
-        mem[0][j] = 1;
+  public int numDistinct(String s, String t) {
+    if (s.length() < t.length()) {
+      return 0;
     }
-    
-    // the first column is 0 by default in every other rows but the first, which we need.
-    
-    for(int i=0; i<T.length(); i++) {
-        for(int j=0; j<S.length(); j++) {
-            if(T.charAt(i) == S.charAt(j)) {
-                mem[i+1][j+1] = mem[i][j] + mem[i+1][j];
-            } else {
-                mem[i+1][j+1] = mem[i+1][j];
-            }
+    if (s.length() == t.length()) {
+      return s.equals(t) ? 1 : 0;
+    }
+    char[] S = s.toCharArray();
+    char[] T = t.toCharArray();
+    int[] dp = new int[T.length + 1];
+    dp[0] = 1;
+    for (int i = 1; i <= S.length; i++) {
+      for (int j = T.length; j > 0; j--) {
+        if (S[i - 1] == T[j - 1]) {
+          dp[j] += dp[j - 1];
         }
+      }
     }
-    
-    return mem[T.length()][S.length()];
-}
+    return dp[T.length];
+  }
 }
