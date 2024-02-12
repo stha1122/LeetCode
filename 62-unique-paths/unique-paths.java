@@ -1,26 +1,19 @@
 class Solution {
-    public int uniquePaths(int m, int n) {
-           t = new int[m][n];
-        for (int[] row: t)
-            Arrays.fill(row, -1);
-        return solve(0,0,m,n);
+    public int uniquePaths(int a, int b) {
+         long res = 1;
+         int n = a+b-2;
+         int r = Math.min(a-1,b-1);
+        long ans = nCr(n,r);
+        return (int)ans;
     }
-     int t[][];
-    public int solve(int i,int j,int m,int n){
-       
-        if(i<0 || i>=m || j<0 ||j>=n){
-            return 0;
+     public static long nCr(int n, int r) {
+        long res = 1;
+
+        // calculating nCr:
+        for (int i = 0; i < r; i++) {
+            res = res * (n - i);
+            res = res / (i + 1);
         }
-        if(i==m-1 && j==n-1){
-            return 1;
-        }
-        if(t[i][j]!=-1){
-            return t[i][j];
-        }
-        
-        int right = solve(i,j+1,m,n);
-        int down = solve(i+1,j,m,n);
-        
-        return t[i][j] =  right + down;
+        return res;
     }
 }
