@@ -1,32 +1,38 @@
 class Solution {
-    public int longestCommonPrefix(int[] arr1, int[] arr2) {
-        HashSet <Integer> set = new HashSet<>();
+    Trie root;
 
-        for(int val : arr1){
-            String str = val+"";
-            int len = str.length();
-            for(int i=0 ; i<len;i++){
-                int curr = Integer.parseInt(str.substring(0, i+1));
-                set.add(curr);
+    public int longestCommonPrefix(int[] arr1, int[] arr2) {
+        root = new Trie();
+        for(int val: arr1){
+            Trie curr = root;
+            for(char ch: String.valueOf(val).toCharArray()){
+                if(curr.children[ch-'0']==null){
+                    curr.children[ch-'0']=new Trie();
+                }
+                curr = curr.children[ch-'0'];
             }
         }
 
-        int ans = 0;
-        for(int val : arr2){
-            String str = val+"";
-            int len = str.length(); 
+        int currCount =0;
+        int ans =0;
+        for(int val: arr2){
+            Trie curr = root;
+            for(char ch: String.valueOf(val).toCharArray()){
+                if(curr.children[ch-'0']==null){
+                    break;
+                }
+                currCount++;
+                curr = curr.children[ch-'0'];
+            }
+            ans=Math.max(ans, currCount);
+            currCount=0;
+        }
+        return ans;
 
-        
-		for(int i=ans; i<len; i++){
-			int curr = Integer.parseInt(str.substring(0, i+1));
-			if(set.contains(curr)){
-				ans = i+1;
-			}
-		}
+    }
+    class Trie{
+        Trie children[] = new Trie[10];
+        Trie(){}
 
-	}
-
-	return ans;
-            
-}
+    }
 }
