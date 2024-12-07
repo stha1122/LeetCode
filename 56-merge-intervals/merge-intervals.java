@@ -1,25 +1,26 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
 class Solution {
-    public int[][] merge(int[][] intervals) {
-        List<int[]> answer = new ArrayList<>();
-
-        if(intervals.length != 0 || intervals != null){
-            Arrays.sort(intervals, (a,b)->a[0]-b[0]);
-
-            int start = intervals[0][0];
-            int end = intervals[0][1];
-            for(int[] i :intervals){
-                if(i[0] <= end){
-                    end = Math.max(end,i[1]);
-                }
-                else{
-                    answer.add(new int[]{start,end});
-                    start = i[0];
-                    end = i[1];
-                }
+    public int[][] merge(int[][] arr) {
+        int n = arr.length;
+        Arrays.sort(arr, new Comparator<int[]>() {
+            public int compare(int[] a, int[] b) {
+                return a[0] - b[0];
             }
+        });
 
-        answer.add(new int[]{start,end});
+        List<int[]> ans = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            if (ans.isEmpty() || arr[i][0] > ans.get(ans.size() - 1)[1]) {
+                ans.add(new int[] { arr[i][0], arr[i][1] });
+            } else {
+                ans.get(ans.size() - 1)[1] = Math.max(arr[i][1], ans.get(ans.size() - 1)[1]);
+            }
         }
-        return answer.toArray(new int[0][]);
+        return ans.toArray(new int[0][]);
     }
 }
