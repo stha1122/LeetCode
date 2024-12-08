@@ -1,13 +1,14 @@
 class Solution {
     public int findDuplicate(int[] nums) {
-        boolean[] seen=new boolean[nums.length];
-        
-        for (int num:nums) {
-            if (seen[num]) return num;
-            seen[num]=true;
+        boolean seen[] = new boolean[nums.length];
+        for(int i:nums){
+            if(seen[i]){
+                return i;
+            }
+            else{
+                seen[i]=true;
+            }
         }
-        
-        return 0;
-        
+        return -1;
     }
 }
